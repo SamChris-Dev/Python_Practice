@@ -5,7 +5,7 @@
 
 This repository does not contain any project.
 
-This repository stores my simple python programs that I create on the course of learning python has a beginner.
+This repository stores simple python programs that I create in the course of learning python as a beginner.
 
 
 
