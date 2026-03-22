@@ -1,4 +1,4 @@
-# A simple text game that predict you winning chances according to you health status
+# A simple text game that predicts your winning chances according to your health status
 name = input("Enter your name: ")
 health = int(input("In a scale of 1-100, what is your health: "))
 
