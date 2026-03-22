@@ -21,7 +21,7 @@ I will be updating this readme when ever a create a new program.
 
 > &#x09;*ticket\_bot.py* is a simple ticket bot that lets you know your ticket price and the movie you can watch.
 
-> &#x09;*ticket\_bot.py* # is a simple text game that predicts your winning chances according to your health status
+> &#x09;*ticket\_bot.py* is a simple text game that predicts your winning chances according to your health status
 
 
 
