@@ -1,4 +1,4 @@
-# a simple ticket bot that lets you know your ticket price and the movie you can watch
+# A simple ticket bot that lets you know your ticket price and the movie you can watch
 age = int(input("Please input your age: "))
 
 if age < 13:
