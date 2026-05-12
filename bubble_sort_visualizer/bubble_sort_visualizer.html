@@ -1,0 +1,138 @@
+
+<style>
+  .bar-wrap { display: flex; align-items: flex-end; justify-content: center; gap: 12px; height: 160px; margin: 1.5rem 0; }
+  .bar { display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.3s ease; }
+  .bar-rect { width: 56px; border-radius: 6px 6px 0 0; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 15px; }
+  .bar-label { font-size: 13px; color: var(--color-text-secondary); }
+  .log-entry { font-size: 13px; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); }
+  .log-entry.swap { color: var(--color-text-primary); font-weight: 500; }
+  .log-entry.done { color: #0F6E56; font-weight: 500; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-right: 6px; }
+</style>
+
+<div style="padding: 1rem 0;">
+  <div style="display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
+    <div>
+      <label style="font-size: 13px; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">Array values (comma separated)</label>
+      <input type="text" id="input-arr" value="2, 3, 1" style="width: 200px; font-size: 14px;" />
+    </div>
+    <div style="display: flex; gap: 8px; align-items: flex-end; padding-bottom: 2px; margin-top: 18px;">
+      <button id="btn-start" onclick="startSort()">Sort ↗</button>
+      <button id="btn-step" onclick="stepSort()" disabled>Step</button>
+      <button id="btn-reset" onclick="resetSort()">Reset</button>
+    </div>
+  </div>
+
+  <div id="pass-label" style="font-size: 13px; color: var(--color-text-secondary); min-height: 20px; margin-bottom: 4px;"></div>
+  <div class="bar-wrap" id="bars"></div>
+
+  <div style="display: flex; gap: 16px; margin: 0.5rem 0 1.5rem; font-size: 12px; flex-wrap: wrap;">
+    <span><span class="badge" style="background:#E6F1FB; color:#0C447C;">■</span>Default</span>
+    <span><span class="badge" style="background:#FAEEDA; color:#633806;">■</span>Comparing</span>
+    <span><span class="badge" style="background:#FAECE7; color:#4A1B0C;">■</span>Swapping</span>
+    <span><span class="badge" style="background:#E1F5EE; color:#085041;">■</span>Sorted</span>
+  </div>
+
+  <div style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px;">Log</div>
+  <div id="log" style="max-height: 180px; overflow-y: auto;"></div>
+</div>
+
+<script>
+let arr = [], steps = [], stepIdx = 0, sortedIndices = new Set(), running = false;
+
+function parseArr() {
+  return document.getElementById('input-arr').value.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+}
+
+function buildSteps(a) {
+  let list = [...a], steps = [], swapped = true;
+  let pass = 0;
+  while (swapped) {
+    swapped = false; pass++;
+    for (let i = 0; i < list.length - 1; i++) {
+      steps.push({ type: 'compare', i, j: i+1, arr: [...list], pass });
+      if (list[i] > list[i+1]) {
+        [list[i], list[i+1]] = [list[i+1], list[i]];
+        swapped = true;
+        steps.push({ type: 'swap', i, j: i+1, arr: [...list], pass });
+      }
+    }
+    steps.push({ type: 'passEnd', sorted: list.length - pass, arr: [...list], pass });
+  }
+  steps.push({ type: 'done', arr: [...list] });
+  return steps;
+}
+
+function renderBars(a, hi1 = -1, hi2 = -1, sorted = new Set(), swapPair = false) {
+  const max = Math.max(...a);
+  const container = document.getElementById('bars');
+  container.innerHTML = '';
+  a.forEach((v, i) => {
+    const h = Math.round((v / max) * 120) + 20;
+    let bg = '#B5D4F4', textColor = '#0C447C';
+    if (sorted.has(i)) { bg = '#5DCAA5'; textColor = '#085041'; }
+    else if ((i === hi1 || i === hi2) && swapPair) { bg = '#F0997B'; textColor = '#4A1B0C'; }
+    else if (i === hi1 || i === hi2) { bg = '#FAC775'; textColor = '#633806'; }
+    const wrap = document.createElement('div'); wrap.className = 'bar';
+    wrap.innerHTML = `<div class="bar-rect" style="height:${h}px; background:${bg}; color:${textColor};">${v}</div><div class="bar-label">i=${i}</div>`;
+    container.appendChild(wrap);
+  });
+}
+
+function log(msg, cls = '') {
+  const d = document.getElementById('log');
+  const e = document.createElement('div'); e.className = 'log-entry ' + cls;
+  e.textContent = msg;
+  d.prepend(e);
+}
+
+function resetSort() {
+  arr = parseArr(); steps = buildSteps(arr); stepIdx = 0; sortedIndices = new Set(); running = false;
+  renderBars(arr);
+  document.getElementById('log').innerHTML = '';
+  document.getElementById('pass-label').textContent = '';
+  document.getElementById('btn-step').disabled = false;
+  document.getElementById('btn-start').disabled = false;
+  log('Array: [' + arr.join(', ') + ']');
+}
+
+function applyStep(s) {
+  if (s.type === 'compare') {
+    renderBars(s.arr, s.i, s.j, sortedIndices, false);
+    document.getElementById('pass-label').textContent = `Pass ${s.pass} — comparing index ${s.i} (${s.arr[s.i]}) and index ${s.j} (${s.arr[s.j]})`;
+    log(`Pass ${s.pass}: compare [${s.i}]=${s.arr[s.i]} vs [${s.j}]=${s.arr[s.j]}`);
+  } else if (s.type === 'swap') {
+    renderBars(s.arr, s.i, s.j, sortedIndices, true);
+    log(`Pass ${s.pass}: swapped ${s.arr[s.j]} ↔ ${s.arr[s.i]} (now [${s.arr.join(', ')}])`, 'swap');
+  } else if (s.type === 'passEnd') {
+    sortedIndices.add(s.sorted);
+    renderBars(s.arr, -1, -1, sortedIndices, false);
+    document.getElementById('pass-label').textContent = `Pass ${s.pass} complete — position ${s.sorted} is sorted`;
+    log(`Pass ${s.pass} complete.`);
+  } else if (s.type === 'done') {
+    s.arr.forEach((_, i) => sortedIndices.add(i));
+    renderBars(s.arr, -1, -1, sortedIndices, false);
+    document.getElementById('pass-label').textContent = 'Sorted! [' + s.arr.join(', ') + ']';
+    log('Done! Result: [' + s.arr.join(', ') + ']', 'done');
+    document.getElementById('btn-step').disabled = true;
+    document.getElementById('btn-start').disabled = true;
+  }
+}
+
+function stepSort() {
+  if (stepIdx >= steps.length) return;
+  applyStep(steps[stepIdx++]);
+}
+
+async function startSort() {
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('btn-step').disabled = true;
+  running = true;
+  while (stepIdx < steps.length && running) {
+    applyStep(steps[stepIdx++]);
+    await new Promise(r => setTimeout(r, 520));
+  }
+}
+
+resetSort();
+</script>
