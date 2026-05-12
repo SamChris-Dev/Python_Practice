@@ -1,5 +1,5 @@
+counter = 0
 if __name__ == "__main__":
-   print("I prefer to be a module.")
+    print("You are running module.py")
 else:
-   print("I like to be a module.")
-
+    print("You are running the main.py")
