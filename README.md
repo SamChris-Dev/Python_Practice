@@ -43,6 +43,10 @@ Each folder focuses on a specific computer science concept, serving as both a le
 
 #### ✨ **4. Extras & Tools (`Extras`)**
 * **`bubble_sort_visualizer.html`**: An interactive, browser-based visualizer for the Bubble Sort algorithm. Written in HTML/JS, it dynamically animates the sorting process, array swapping, and pass completion.
+<p align="center">
+  <img src="Images/Bubble_sort_visualizer.png" width="400" alt="Bubble_sort_visualiazer">
+</p>
+
 * **`python_timetable.ics`**: My structured, weekly Python study plan and syllabus.
 
 ---
