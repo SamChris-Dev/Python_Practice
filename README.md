@@ -13,7 +13,7 @@ Each folder focuses on a specific computer science concept, serving as both a le
 #### 🧮 **1. Quadratic Equation Solvers (`Quadratic_solver` & `Quadratic_solver2.0`)**
 *This is the capstone project of the repository, demonstrating the evolution of a single concept from a simple script to a polished application.*
 * **`general_formula.py`**: A Command-Line Interface (CLI) tool that evaluates quadratic coefficients and calculates real/complex roots with built-in error handling.
-  ![No GUI Root Solver](images/noGUI.png)
+  ![No GUI Root Solver](Images/noGUI.png)
 * **`GUI_root_solver.py`**: The first GUI iteration, built using Python's standard `tkinter` library. 
 * **`R_solver.py` (v2.0)**: A fully styled, production-ready desktop application with a custom interface, dynamic status labeling, and robust exception handling. *(Packaged as a standalone `.exe` using PyInstaller).*
 
