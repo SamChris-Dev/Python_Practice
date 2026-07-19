@@ -1,6 +1,17 @@
+"""
+R_solver.py
+A Command-Line Interface (CLI) tool that evaluates quadratic coefficients 
+and calculates real/complex roots with built-in error handling.
+"""
+
 import math
 
 def rootsolver():
+    """
+    Main function to compute roots of a quadratic equation.
+    Interactively prompts the user for coefficients a, b, and c.
+    Handles exceptions like non-numeric inputs.
+    """
     print("Welcome to my root solver!")
 
     while True:

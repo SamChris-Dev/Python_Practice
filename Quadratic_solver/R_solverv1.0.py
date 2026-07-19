@@ -1,3 +1,8 @@
+"""
+R_solverv1.0.py
+The first GUI iteration of the Quadratic Equation Solver, built using Python's standard `tkinter` library.
+"""
+
 import tkinter as tk
 from tkinter import messagebox
 import math

@@ -1,3 +1,9 @@
+"""
+R_solverv2.0.py
+A fully styled, production-ready desktop application for evaluating quadratic coefficients
+and calculating real/complex roots. Built with tkinter and ttk.
+"""
+
 #! /usr/bin/env python3
 #  -*- coding: utf-8 -*-
 #

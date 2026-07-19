@@ -34,12 +34,15 @@ Each folder focuses on a specific computer science concept, serving as both a le
 * **`largest_number.py`**: Utilizes a `while` loop for dynamic data entry, continuously comparing values until a termination condition (`-1`) is met.
 * **`dragons_choice_game.py`**: A text-based adventure game utilizing `if/elif` statements to evaluate user health and predict battle outcomes.
 * **`ticket_bot.py`**: A conditional logic script that acts as an automated cinema ticketing system based on age constraints.
-* **`Variables.py`**: Demonstrates simple boolean comparisons and standard input handling.
+* **`variable.py`**: Demonstrates simple boolean comparisons and standard input handling.
+* **`test.py`**: A simple script to verify if the Python interpreter is running correctly.
 
 #### 📦 **3. Architecture & Organization (`OOP` & `Packages_and_modules`)**
 *Scripts exploring software architecture, code reusability, and object-oriented design.*
 * **`class.py`**: Demonstrates Object-Oriented Programming (OOP) concepts, including class definitions, the `__init__` constructor, instance variables, and accessing internal `__dict__` attributes.
+* **`simple_stack.py`**: Implements a simple interactive stack (LIFO) data structure using a Python list, allowing users to push, pop, and view elements.
 * **`main.py` & `module.py`**: Showcases custom module creation, namespace management, and importing external logic to perform list calculations.
+* **`main_two.py` & `iota.py`**: Demonstrates package structure and importing logic from nested packages/modules using system paths.
 
 #### ✨ **4. Extras & Tools (`Extras`)**
 * **`bubble_sort_visualizer.html`**: An interactive, browser-based visualizer for the Bubble Sort algorithm. Written in HTML/JS, it dynamically animates the sorting process, array swapping, and pass completion.
